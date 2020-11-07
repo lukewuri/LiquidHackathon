@@ -9,7 +9,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import {Toolbar} from "@material-ui/core";
 import Grid from '@material-ui/core/Grid';
-import BannerImage from "./assets/teamliquidicon.png";
+import BannerImage from "./assets/Team_liquid_logo_2017.png";
 
 import SearchPanel from "./SearchPanel";
 
@@ -92,7 +92,7 @@ export default function SimpleTabs() {
                         spacing={24}
                     >
                         <Grid justify="space-between" item>
-                            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+                            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" indicatorColor="secondary">
                                 <Tab label="news" {...a11yProps(0)} />
                                 <Tab label="leaderboards" {...a11yProps(1)} />
                                 <Tab label="search" {...a11yProps(2)} />
