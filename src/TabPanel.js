@@ -12,7 +12,8 @@ import Grid from '@material-ui/core/Grid';
 import BannerImage from "./assets/Team_liquid_logo_2017.png";
 
 import SearchPanel from "./SearchPanel";
-import SignIn from "./SignIn";
+import SignIn from "./Authentication/SignIn";
+import Registration from "./Authentication/Registration";
 
 
 
@@ -75,14 +76,19 @@ const useStyles = makeStyles((theme) => ({
 export default function SimpleTabs() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
-    const [showLoginModal, setShowLoginModal] = React.useState(false);
+    const [showSignInModal, setShowSignInModal] = React.useState(false);
+    const [showRegistrationModal, setShowRegistrationModal] = React.useState(false);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
-    const handleLoginClick = () => {
-        setShowLoginModal(true);
+    const handleSignInClick = (val) => {
+        setShowSignInModal(val);
+    }
+
+    const handleRegistrationClick = (val) => {
+        setShowRegistrationModal(val);
     }
 
     return (
@@ -107,12 +113,13 @@ export default function SimpleTabs() {
                             </Tabs>
                         </Grid>
                         <Grid item>
-                            <Button color="inherit" onClick={handleLoginClick}>Login</Button>
+                            <Button color="inherit" onClick={handleSignInClick}>Login</Button>
                         </Grid>
                     </Grid>
                 </Toolbar>
             </AppBar>
-            <SignIn show={showLoginModal}/>
+            <SignIn show={showSignInModal} showSignInFun={handleSignInClick} showRegistrationFun={handleRegistrationClick}/>
+            <Registration show={showRegistrationModal} showSignInFun={handleSignInClick} showRegistrationFun={handleRegistrationClick}/>
             <TabPanel value={value} index={0}>
                 Item One
             </TabPanel>
