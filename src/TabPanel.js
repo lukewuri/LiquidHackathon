@@ -12,6 +12,8 @@ import Grid from '@material-ui/core/Grid';
 import BannerImage from "./assets/Team_liquid_logo_2017.png";
 
 import SearchPanel from "./SearchPanel";
+import SignIn from "./SignIn";
+
 
 
 function TabPanel(props) {
@@ -73,10 +75,15 @@ const useStyles = makeStyles((theme) => ({
 export default function SimpleTabs() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
+    const [showLoginModal, setShowLoginModal] = React.useState(false);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    const handleLoginClick = () => {
+        setShowLoginModal(true);
+    }
 
     return (
         <div className={classes.root} >
@@ -100,11 +107,12 @@ export default function SimpleTabs() {
                             </Tabs>
                         </Grid>
                         <Grid item>
-                            <Button color="inherit">Login</Button>
+                            <Button color="inherit" onClick={handleLoginClick}>Login</Button>
                         </Grid>
                     </Grid>
                 </Toolbar>
             </AppBar>
+            <SignIn show={showLoginModal}/>
             <TabPanel value={value} index={0}>
                 Item One
             </TabPanel>
