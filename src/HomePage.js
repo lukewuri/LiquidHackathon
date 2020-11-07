@@ -1,25 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import Button from '@material-ui/core/Button';
+import TabPanels from './TabPanel';
+import React from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function HomePage() {
+    return (
+        <div className="HomePage" style={{minHeight: "100vh", backgroundColor: "#d9ddde"}}>
+            <TabPanels />
+        </div>
+    );
 }
 
-export default App;
+export default HomePage;

@@ -13,7 +13,8 @@ import BannerImage from "./assets/teamliquidicon.png";
 
 import SearchPanel from "./SearchPanel";
 
-function TabPanels(props) {
+
+function TabPanel(props) {
     const {children, value, index, ...other} = props;
 
     return (
@@ -23,6 +24,7 @@ function TabPanels(props) {
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
             {...other}
+            style={{height: "100%"}}
         >
             {value === index && (
                 <Box p={3}>
@@ -33,7 +35,7 @@ function TabPanels(props) {
     );
 }
 
-TabPanels.propTypes = {
+TabPanel.propTypes = {
     children: PropTypes.node,
     index: PropTypes.any.isRequired,
     value: PropTypes.any.isRequired,
@@ -48,8 +50,7 @@ function a11yProps(index) {
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
+        flexGrow: 1
     },
     toolbar: {
         float: "left",
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function TabPanels() {
+export default function SimpleTabs() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
@@ -78,7 +79,7 @@ export default function TabPanels() {
     };
 
     return (
-        <div className={classes.root}>
+        <div className={classes.root} >
             <AppBar position="static" className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
                     <img className={classes.leftHeaderItems} src={BannerImage}/>
@@ -104,18 +105,18 @@ export default function TabPanels() {
                     </Grid>
                 </Toolbar>
             </AppBar>
-            <TabPanels value={value} index={0}>
+            <TabPanel value={value} index={0}>
                 Item One
-            </TabPanels>
-            <TabPanels value={value} index={1}>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
                 Item Two
-            </TabPanels>
-            <TabPanels value={value} index={2}>
+            </TabPanel>
+            <TabPanel value={value} index={2}>
                 <SearchPanel />
-            </TabPanels>
-            <TabPanels value={value} index={3}>
+            </TabPanel>
+            <TabPanel value={value} index={3}>
                 Item Four
-            </TabPanels>
+            </TabPanel>
         </div>
     );
 }
