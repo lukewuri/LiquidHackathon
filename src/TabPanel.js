@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import BannerImage from "./assets/Team_liquid_logo_2017.png";
 
 import SearchPanel from "./SearchPanel";
+import LeaderboardPanel from "./Leaderboard";
 import SignIn from "./Authentication/SignIn";
 import Registration from "./Authentication/Registration";
 
@@ -107,7 +108,7 @@ export default function SimpleTabs() {
                         <Grid justify="space-between" item>
                             <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" indicatorColor="secondary">
                                 <Tab label="news" {...a11yProps(0)} />
-                                <Tab label="leaderboards" {...a11yProps(1)} />
+                                <Tab label="leaderboard 1" {...a11yProps(1)} />
                                 <Tab label="search" {...a11yProps(2)} />
                                 <Tab label="about" {...a11yProps(3)} />
                             </Tabs>
@@ -124,7 +125,7 @@ export default function SimpleTabs() {
                 Item One
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Item Two
+                <LeaderboardPanel />
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <SearchPanel />
