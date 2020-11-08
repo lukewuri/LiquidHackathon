@@ -43,9 +43,9 @@ function createData(ranking, pfp, name, summonerName, role, rank) {
 }
 
 const rows = [
-    createData(1, "url(" + pfpTest + ")", "Michael Ren", "isStupid", "cat owner", "worst"),
-    createData(2, "url(" + pfpTest + ")", "Luke Wuri", "Wuri", "idk", "rank whatever"),
-    createData(3, "url(" + pfpTest + ")", "Weiming", "uhhhh", "qwerty", "fjqebrnvfj"),
+    createData(1, "profileicon/1464.png", "Michael Ren", "Omscientia", "Mid", "Diamond I 0 LP"),
+    createData(2, "profileicon/1449.png", "Luke Wuri", "Wuri", "Top", "Challenger 500 LP"),
+    createData(3, "profileicon/1600.png", "Weiming Zhu", "WeimotheNinja", "ADC", "Silver 2 25 LP"),
 ];
 
 function LeaderboardPanel() {
@@ -58,7 +58,7 @@ function LeaderboardPanel() {
                  className={classes.bannerGrid}
     >
         <img className={classes.bannerLogo} src={SearchImage}/>
-        <h1>Leaderboard 1</h1>
+        <h1>Leaderboard</h1>
         <Grid item className={classes.center}>
 
             <TableContainer component={Paper}>
@@ -79,7 +79,7 @@ function LeaderboardPanel() {
                                 <TableCell component="th" scope="row">
                                     {row.ranking}
                                 </TableCell>
-                                <TableCell align="right">{row.pfp}</TableCell>
+                                <TableCell align="right"><img src={row.pfp} /></TableCell>
                                 <TableCell align="right">{row.name}</TableCell>
                                 <TableCell align="right">{row.summonerName}</TableCell>
                                 <TableCell align="right">{row.role}</TableCell>

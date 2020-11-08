@@ -294,7 +294,7 @@ export default function ProfileTab(props) {
                             <Paper className={classes.paper}>
                                 <div>
                                     <h2> Highlights </h2>
-                                    <video width="320" height="240" controls>
+                                    <video width="320" height="240" controls="controls" loop autoPlay>
                                         <source src={mp4Links} type="video/mp4"/>
                                     </video>
                                 </div>

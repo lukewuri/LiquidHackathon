@@ -2,6 +2,7 @@ import TabPanel from './TabPanel';
 import React from "react";
 import Background from "./assets/LiquidHacksBackground.png";
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
+import {BrowserRouter as Router, Switch} from "react-router-dom";
 
 const theme = createMuiTheme({
     palette: {
@@ -14,8 +15,6 @@ const theme = createMuiTheme({
     }
 });
 
-
-import {BrowserRouter as Router, Switch} from "react-router-dom";
 
 function HomePage() {
     return (

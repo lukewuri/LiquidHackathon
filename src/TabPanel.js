@@ -123,7 +123,7 @@ export default function SimpleTabs(props) {
                             <Tabs value={value} onChange={handleChange} aria-label="simple tabs example"
                                   indicatorColor="secondary">
                                 <Tab label="news" {...a11yProps(0)} />
-                                <Tab label="leaderboard 1" {...a11yProps(1)} />
+                                <Tab label="leaderboard" {...a11yProps(1)} />
                                 <Tab label="search" {...a11yProps(2)} />
                                 <Tab label="about" {...a11yProps(3)} />
                             </Tabs>
@@ -146,7 +146,7 @@ export default function SimpleTabs(props) {
             <Registration show={showRegistrationModal} showSignInFun={handleSignInClick}
                           showRegistrationFun={handleRegistrationClick}/>
             <TabPanel value={value} index={0}>
-                Item One
+
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <LeaderboardPanel />
@@ -155,7 +155,7 @@ export default function SimpleTabs(props) {
                 <SearchPanel/>
             </TabPanel>
             <TabPanel value={value} index={3}>
-                Item Four
+
             </TabPanel>
 
             <Route path={`/:username`}>
