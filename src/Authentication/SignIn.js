@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: theme.palette.secondary.main
     },
     form: {
         width: '100%',
@@ -34,14 +34,16 @@ const useStyles = makeStyles((theme) => ({
     },
     container: {
         backgroundColor: "white",
-        boxShadow: "10px gray"
+        boxShadow: "10px gray",
+    },
+    register: {
+        marginBottom: "20px"
     }
 }));
 
 export default function SignIn(props) {
     const classes = useStyles();
-    const {show} = props;
-    console.log("Show::", show);
+    const {show, showRegistrationFun, showSignInFun} = props;
     if(!show) {
         return null;
     }
@@ -78,31 +80,30 @@ export default function SignIn(props) {
                         id="password"
                         autoComplete="current-password"
                     />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                    />
                     <Button
-                        type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={()=> {
+                            showRegistrationFun(false);
+                            showSignInFun(false);
+                        }}
                     >
                         Sign In
                     </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Link href="#" variant="body2">
-                                Forgot password?
-                            </Link>
-                        </Grid>
-                        <Grid item>
-                            <Link href="#" variant="body2">
-                                {"Don't have an account? Sign Up"}
-                            </Link>
-                        </Grid>
-                    </Grid>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        color="Secondary"
+                        className={classes.register}
+                        onClick={()=> {
+                            showRegistrationFun(true);
+                            showSignInFun(false);
+                        }}
+                    >
+                        Register
+                    </Button>
                 </form>
             </div>
         </Container>
