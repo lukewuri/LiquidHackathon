@@ -13,6 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import CloseIcon from "@material-ui/icons/Close";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -23,7 +24,9 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: theme.palette.primary.main,
+        position: "relative",
+        top: "30px"
     },
     form: {
         width: '100%',
@@ -38,12 +41,19 @@ const useStyles = makeStyles((theme) => ({
     },
     register: {
         marginTop: "20px",
-        marginBottom: "20px"
+        marginBottom: "20px",
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.secondary.main
     },
     formControl: {
         minWidth: 120,
         width: "100%",
         marginTop: "10px",
+    },
+    close: {
+        position: "relative",
+        top: "-47.5px",
+        right: "-190px"
     }
 }));
 
@@ -102,6 +112,13 @@ export default function Registration(props) {
                     <Avatar className={classes.avatar}>
                         <LockOutlinedIcon/>
                     </Avatar>
+                    <Button className={classes.close}
+                            onClick={()=> {
+                                showRegistrationFun(false);
+                                showSignInFun(false);
+                            }}>
+                        <CloseIcon />
+                    </Button>
                     <Typography component="h1" variant="h5">
                         Registration
                     </Typography>
@@ -200,7 +217,6 @@ export default function Registration(props) {
                         <Button
                             fullWidth
                             variant="contained"
-                            color="primary"
                             onClick={() => {
                                 showRegistrationFun(false);
                                 showSignInFun(false);
