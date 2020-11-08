@@ -1,4 +1,4 @@
-import TabPanels from './TabPanel';
+import TabPanel from './TabPanel';
 import React from "react";
 import Background from "./assets/LiquidHacksBackground.png";
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
@@ -14,14 +14,19 @@ const theme = createMuiTheme({
     }
 });
 
+
+import {BrowserRouter as Router, Switch} from "react-router-dom";
+
 function HomePage() {
     return (
-        <ThemeProvider theme={theme}>
-            <div className="HomePage"
-                 style={{minHeight: "100vh", backgroundImage: "url(" + Background + ")", backgroundSize: "cover"}}>
-                <TabPanels/>
-            </div>
-        </ThemeProvider>
+        <div className="HomePage"
+             style={{minHeight: "100vh", backgroundImage: "url(" + Background + ")", backgroundSize: "cover"}}>
+            <Router>
+                <Switch>
+                    <TabPanel/>
+                </Switch>
+            </Router>
+        </div>
     );
 }
 

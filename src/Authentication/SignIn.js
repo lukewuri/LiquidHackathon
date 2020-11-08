@@ -15,6 +15,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CloseIcon from '@material-ui/icons/Close';
 
+import AccountAuthentication from "../api-clients/AccountAuthentication";
+
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -51,7 +53,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn(props) {
     const classes = useStyles();
-    const {show, showRegistrationFun, showSignInFun} = props;
+    const {show, showRegistrationFun, showSignInFun, loginUser} = props;
+
+    const [userName, setUserName] = React.useState("");
+    const [password, setPassword] = React.useState("");
+
+    const handleChangeUsername = (event) => {
+        setUserName(event.target.value);
+    };
+
+    const handleChangePassword = (event) => {
+        setPassword(event.target.value);
+    };
+
     if(!show) {
         return null;
     }
@@ -74,17 +88,19 @@ export default function SignIn(props) {
                 </Typography>
                 <form className={classes.form} noValidate>
                     <TextField
+                        onChange={handleChangeUsername}
                         variant="outlined"
                         margin="normal"
                         required
                         fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
+                        id="username"
+                        label="Username"
+                        name="userName"
+                        autoComplete="userName"
                         autoFocus
                     />
                     <TextField
+                        onChange={handleChangePassword}
                         variant="outlined"
                         margin="normal"
                         required
@@ -103,6 +119,8 @@ export default function SignIn(props) {
                         onClick={()=> {
                             showRegistrationFun(false);
                             showSignInFun(false);
+                            AccountAuthentication.loginAccount(userName, password, loginUser);
+
                         }}
                     >
                         Sign In
@@ -119,6 +137,7 @@ export default function SignIn(props) {
                     >
                         Register
                     </Button>
+
                 </form>
             </div>
         </Container>

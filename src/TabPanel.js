@@ -11,11 +11,15 @@ import {Toolbar} from "@material-ui/core";
 import Grid from '@material-ui/core/Grid';
 import BannerImage from "./assets/Team_liquid_logo_2017.png";
 
+import {BrowserRouter as Router, Route, Switch, useHistory} from "react-router-dom";
+
 import SearchPanel from "./SearchPanel";
 import LeaderboardPanel from "./Leaderboard";
 import SignIn from "./Authentication/SignIn";
 import Registration from "./Authentication/Registration";
+import Profile from "./Profile";
 
+import {createBrowserHistory} from 'history'
 
 
 function TabPanel(props) {
@@ -74,7 +78,14 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function SimpleTabs() {
+export default function SimpleTabs(props) {
+    const [loggedInUsername, setLoggedInUsername] = React.useState("");
+    const history = useHistory();
+
+
+    const handleChangeUsername = (username) => {
+        setLoggedInUsername(username);
+    };
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const [showSignInModal, setShowSignInModal] = React.useState(false);
@@ -82,6 +93,8 @@ export default function SimpleTabs() {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        console.log("::hnn", history);
+        history.push("");
     };
 
     const handleSignInClick = (val) => {
@@ -93,7 +106,8 @@ export default function SimpleTabs() {
     }
 
     return (
-        <div className={classes.root} >
+        <div className={classes.root}>
+
             <AppBar position="static" className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
                     <img className={classes.leftHeaderItems} src={BannerImage}/>
@@ -106,7 +120,8 @@ export default function SimpleTabs() {
                         spacing={24}
                     >
                         <Grid justify="space-between" item>
-                            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" indicatorColor="secondary">
+                            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example"
+                                  indicatorColor="secondary">
                                 <Tab label="news" {...a11yProps(0)} />
                                 <Tab label="leaderboard 1" {...a11yProps(1)} />
                                 <Tab label="search" {...a11yProps(2)} />
@@ -114,13 +129,22 @@ export default function SimpleTabs() {
                             </Tabs>
                         </Grid>
                         <Grid item>
-                            <Button color="inherit" onClick={handleSignInClick}>Login</Button>
+                            {!loggedInUsername ?
+                                <Button color="inherit" onClick={handleSignInClick}>Login</Button>
+                                :
+                                <Button color="inherit" onClick={() => {
+                                    handleChangeUsername("")
+                                }}>Sign Out</Button>
+                            }
+
                         </Grid>
                     </Grid>
                 </Toolbar>
             </AppBar>
-            <SignIn show={showSignInModal} showSignInFun={handleSignInClick} showRegistrationFun={handleRegistrationClick}/>
-            <Registration show={showRegistrationModal} showSignInFun={handleSignInClick} showRegistrationFun={handleRegistrationClick}/>
+            <SignIn show={showSignInModal} showSignInFun={handleSignInClick}
+                    showRegistrationFun={handleRegistrationClick} loginUser={handleChangeUsername}/>
+            <Registration show={showRegistrationModal} showSignInFun={handleSignInClick}
+                          showRegistrationFun={handleRegistrationClick}/>
             <TabPanel value={value} index={0}>
                 Item One
             </TabPanel>
@@ -128,11 +152,16 @@ export default function SimpleTabs() {
                 <LeaderboardPanel />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <SearchPanel />
+                <SearchPanel/>
             </TabPanel>
             <TabPanel value={value} index={3}>
                 Item Four
             </TabPanel>
+
+            <Route path={`/:username`}>
+                <Profile loggedInUsername={loggedInUsername} setTab={setValue}/>
+            </Route>
+
         </div>
     );
 }
