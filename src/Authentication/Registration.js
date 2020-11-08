@@ -56,12 +56,13 @@ export default function Registration(props) {
 
     const [firstName, setFirstName] = React.useState("");
     const [lastName, setLastName] = React.useState("");
+    const [userName, setUserName] = React.useState("");
     const [birthday, setBirthday] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [summonerName, setSummonerName] = React.useState("");
     const [region, setRegion] = React.useState("NA");
-
+    const [level, setLevel] = React.useState("Pro");
 
 
     const handleChangeFirstName = (event) => {
@@ -69,6 +70,9 @@ export default function Registration(props) {
     };
     const handleChangeLastName = (event) => {
         setLastName(event.target.value);
+    };
+    const handleChangeUserName = (event) => {
+        setUserName(event.target.value);
     };
     const handleChangeBirthday = (event) => {
         setBirthday(event.target.value);
@@ -88,14 +92,17 @@ export default function Registration(props) {
     const handleChangeRegion = (event) => {
         setRegion(event.target.value);
     };
+    const handleChangeLevel = (event) => {
+        setLevel(event.target.value);
+    };
 
     const handleRegisterAccount = () => {
 
         //TODO Add code for registering
+        console.log("::register called")
+       AccountAuthentication.registerAccount(firstName, lastName, userName, birthday, email, password, summonerName, region, level);
     };
-    console.log(firstName, lastName);
 
-    AccountAuthentication.registerAccount("asdf");
 
     if (!show) {
         return null;
@@ -132,6 +139,18 @@ export default function Registration(props) {
                             label="Last Name"
                             name="Last name"
                             autoComplete="Last name"
+                            autoFocus
+                            fullWidth
+                        />
+                        <TextField
+                            onChange={handleChangeUserName}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            id="User Name"
+                            label="Username"
+                            name="UserName"
+                            autoComplete="Username"
                             autoFocus
                             fullWidth
                         />
@@ -195,11 +214,29 @@ export default function Registration(props) {
                                 value={region}
                                 onChange={handleChangeRegion}
                                 displayEmpty
-                                className={classes.selectEmpty}
                             >
                                 <MenuItem value={"NA"}>NA</MenuItem>
                                 <MenuItem value={"EUW"}>EUW</MenuItem>
                                 <MenuItem value={"KR"}>KR</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl className={classes.formControl}>
+                            <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                                Level
+                            </InputLabel>
+                            <Select
+                                labelId="demo-simple-select-placeholder-label-label"
+                                id="demo-simple-select-placeholder-label"
+                                value={level}
+                                onChange={handleChangeLevel}
+                                displayEmpty
+                            >
+                                <MenuItem value={"Pro"}>Pro</MenuItem>
+                                <MenuItem value={"Amateur"}>Amateur</MenuItem>
+                                <MenuItem value={"Collegiate"}>Collegiate</MenuItem>
+                                <MenuItem value={"High School"}>High School</MenuItem>
+                                <MenuItem value={"Middle School"}>Middle School</MenuItem>
+                                <MenuItem value={"Teamless"}>Teamless</MenuItem>
                             </Select>
                         </FormControl>
                         <Button
@@ -209,6 +246,7 @@ export default function Registration(props) {
                             onClick={() => {
                                 showRegistrationFun(false);
                                 showSignInFun(false);
+                                handleRegisterAccount();
                             }}
                             className={classes.register}
                         >

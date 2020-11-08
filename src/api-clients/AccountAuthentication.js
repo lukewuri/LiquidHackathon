@@ -85,52 +85,68 @@ const testAccount = {
 }
 
 class AccountAuthentication {
-    static loginAccount(email, password) {
-        // const url = "https://localhost:8080/" + accountId;
-        //
-        // console.log("Retrieving highlight keys for account id: " + accountId);
-        //
-        // https.get(url, response => {
-        //     console.log('getKeyList status code:' + response.statusCode);
-        //     const highlightUrls = []
-        //     response.on('data', d => {
-        //         d.forEach(element => {
-        //             highlightUrls.push(buildHighlightUrl(element));
-        //         });
-        //
-        //         return highlightUrls;
-        //     })
-        // }).on('error', error => {
-        //     console.error(e);
-        // })
-        this.hashPassword(password);
-    }
-    const [firstName, setFirstName] = React.useState("");
-    const [lastName, setLastName] = React.useState("");
-    const [birthday, setBirthday] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
-    const [summonerName, setSummonerName] = React.useState("");
-    const [region, setRegion] = React.useState("NA");
+    static loginAccount(username, password, loginUser) {
+        const requestBody = {
+            mercuryUsername: username,
+            encryptedPassword: this.hashPassword(password)
+        }
 
-    static registerAccount(firstName, lastName, birthday, email, password, summonerName, region) {
-        console.log("::", accountId);
+
+        const registerAccountURL = "https://c24g2p1ca6.execute-api.us-east-2.amazonaws.com/default/logIn";
+        var oReq = new XMLHttpRequest();
+        console.log("::requestBody", requestBody);
+
+
+        oReq.onreadystatechange = function() {
+            console.log("::request", oReq.readyState, oReq.status)
+            if (oReq.readyState == XMLHttpRequest.DONE && oReq.status == 200 ) {
+                console.log("::GOOD CALL", oReq, XMLHttpRequest.DONE)
+                loginUser(JSON.parse(oReq.responseText).mercuryUsername);
+            }
+        }
+        oReq.open("POST", registerAccountURL, true);
+        oReq.send(JSON.stringify(requestBody));
+    }
+
+
+    static registerAccount(firstName, lastName, username, birthday, email, password, summonerName, region, playerType) {
 
         function reqListener () {
             console.log("::::", this.responseText);
         }
 
+        var replacedBirthday = birthday.replace(/-/g, '');
+
+        const birthdayInt = parseInt(replacedBirthday);
+
+        const requestBody = {
+            firstName: firstName,
+            lastName: lastName,
+            mercuryUsername: username,
+            birthday: birthdayInt,
+            email: email,
+            encryptedPassword: this.hashPassword(password),
+            summonerName: summonerName,
+            serverRegion: region,
+            playerType: playerType
+
+        }
         const registerAccountURL = "https://c24g2p1ca6.execute-api.us-east-2.amazonaws.com/default/putUserInfo";
         var oReq = new XMLHttpRequest();
+
+        oReq.onreadystatechange = function() {
+            if (oReq.readyState == XMLHttpRequest.DONE) {
+                alert(oReq.responseText);
+            }
+        }
         oReq.onload = reqListener;
-        oReq.open("POST", "https://c24g2p1ca6.execute-api.us-east-2.amazonaws.com/default/putUserInfo", true);
-        oReq.send(JSON.stringify(testAccount));
+        oReq.open("POST", registerAccountURL, true);
+        oReq.send(JSON.stringify(requestBody));
     }
 
     static hashPassword(password) {
         const encrypted = sha256(password);
-
-        console.log("::passwords", password, encrypted);
+        return encrypted;
     }
 
 }

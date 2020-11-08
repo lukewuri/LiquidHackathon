@@ -45,13 +45,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn(props) {
     const classes = useStyles();
-    const {show, showRegistrationFun, showSignInFun} = props;
+    const {show, showRegistrationFun, showSignInFun, loginUser} = props;
 
-    const [email, setEmail] = React.useState("");
+    const [userName, setUserName] = React.useState("");
     const [password, setPassword] = React.useState("");
 
-    const handleChangeEmail = (event) => {
-        setEmail(event.target.value);
+    const handleChangeUsername = (event) => {
+        setUserName(event.target.value);
     };
 
     const handleChangePassword = (event) => {
@@ -73,15 +73,15 @@ export default function SignIn(props) {
                 </Typography>
                 <form className={classes.form} noValidate>
                     <TextField
-                        onChange={handleChangeEmail}
+                        onChange={handleChangeUsername}
                         variant="outlined"
                         margin="normal"
                         required
                         fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
+                        id="username"
+                        label="Username"
+                        name="userName"
+                        autoComplete="userName"
                         autoFocus
                     />
                     <TextField
@@ -104,7 +104,8 @@ export default function SignIn(props) {
                         onClick={()=> {
                             showRegistrationFun(false);
                             showSignInFun(false);
-                            AccountAuthentication.loginAccount(email, password);
+                            AccountAuthentication.loginAccount(userName, password, loginUser);
+
                         }}
                     >
                         Sign In
@@ -117,11 +118,11 @@ export default function SignIn(props) {
                         onClick={()=> {
                             showRegistrationFun(true);
                             showSignInFun(false);
-                            AccountAuthentication.registerAccount(email, password);
                         }}
                     >
                         Register
                     </Button>
+
                 </form>
             </div>
         </Container>

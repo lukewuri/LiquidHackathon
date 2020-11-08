@@ -7,24 +7,17 @@ class Account {
     }
 
     //Calls lambda that fetches DynamoDB for an account matching the parameters
-    static getAccount(accountId) {
-        // const url = "https://localhost:8080/" + accountId;
-        //
-        // console.log("Retrieving highlight keys for account id: " + accountId);
-        //
-        // https.get(url, response => {
-        //     console.log('getKeyList status code:' + response.statusCode);
-        //     const highlightUrls = []
-        //     response.on('data', d => {
-        //         d.forEach(element => {
-        //             highlightUrls.push(buildHighlightUrl(element));
-        //         });
-        //
-        //         return highlightUrls;
-        //     })
-        // }).on('error', error => {
-        //     console.error(e);
-        // })
+    static getAccount(username, setAccount) {
+        const url = "https://c24g2p1ca6.execute-api.us-east-2.amazonaws.com/default/getUserByUsername?mercuryUsername=" + username;
+        function reqListener () {
+            console.log(this.responseText);
+            setAccount(JSON.parse(this.responseText)?.Items[0]);
+        }
+
+        var oReq = new XMLHttpRequest();
+        oReq.addEventListener("load", reqListener);
+        oReq.open("GET", url);
+        oReq.send();
     }
 
     getHighlightLinksArray() {
