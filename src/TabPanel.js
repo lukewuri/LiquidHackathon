@@ -158,7 +158,7 @@ export default function SimpleTabs(props) {
             </TabPanel>
 
             <Route path={`/:username`}>
-                <Profile setTab={setValue}/>
+                <Profile loggedInUsername={loggedInUsername} setTab={setValue}/>
             </Route>
 
         </div>

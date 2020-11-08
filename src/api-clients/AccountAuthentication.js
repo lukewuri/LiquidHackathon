@@ -101,7 +101,7 @@ class AccountAuthentication {
             console.log("::request", oReq.readyState, oReq.status)
             if (oReq.readyState == XMLHttpRequest.DONE && oReq.status == 200 ) {
                 console.log("::GOOD CALL", oReq, XMLHttpRequest.DONE)
-                loginUser(JSON.parse(oReq.responseText).mercuryUsername);
+                    loginUser(JSON.parse(oReq.responseText).mercuryUsername);
             }
         }
         oReq.open("POST", registerAccountURL, true);
@@ -111,9 +111,6 @@ class AccountAuthentication {
 
     static registerAccount(firstName, lastName, username, birthday, email, password, summonerName, region, playerType) {
 
-        function reqListener () {
-            console.log("::::", this.responseText);
-        }
 
         var replacedBirthday = birthday.replace(/-/g, '');
 
@@ -139,7 +136,6 @@ class AccountAuthentication {
                 alert(oReq.responseText);
             }
         }
-        oReq.onload = reqListener;
         oReq.open("POST", registerAccountURL, true);
         oReq.send(JSON.stringify(requestBody));
     }

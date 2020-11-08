@@ -1,24 +1,15 @@
 import React, {useEffect} from 'react';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
-import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 
 import Iron from "../assets/ranked-emblems/iron.png"
 import Bronze from "../assets/ranked-emblems/bronze.png"
@@ -30,13 +21,15 @@ import Master from "../assets/ranked-emblems/master.png"
 import Grandmaster from "../assets/ranked-emblems/grandmaster.png"
 import Challenger from "../assets/ranked-emblems/challenger.png"
 
-
-
 import Account from "../api-clients/Account";
+import Button from "@material-ui/core/Button";
+
+import EditModal from "../Profile/EditModal";
+
 const RankedEmblems = "../assets/ranked-emblems/";
 
 const mapKeyToImage = {
-    "iron" : Iron,
+    "iron": Iron,
     "bronze": Bronze,
     "silver": Silver,
     "gold": Gold,
@@ -60,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
-        padding: '0 8px',
+        padding: '0 5px',
         ...theme.mixins.toolbar,
     },
     appBar: {
@@ -95,6 +88,7 @@ const useStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
+        background: "rgba(255, 255, 255, 0.1)"
     },
     drawerPaperClose: {
         overflowX: 'hidden',
@@ -129,20 +123,41 @@ const useStyles = makeStyles((theme) => ({
     rankIcon: {
         height: 150,
         width: 150,
-        float: 'left'
+        display: 'block',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: '40px'
+    },
+    profileIcon: {
+        height: 150,
+        width: 150,
+        display: 'block',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: '40px'
     }
-
 }));
 
 export default function Dashboard(props) {
     const classes = useStyles();
-    let {username} = props;
+    let {username, loggedInUsername} = props;
     const [open, setOpen] = React.useState(true);
     const [account, setAccount] = React.useState(null);
+    const [showEditModal, setShowEditModal] = React.useState(false);
+
+    console.log()
     useEffect(() => {
         Account.getAccount(username, setAccount);
 
     }, [username]);
+
+    const handleUpdateAccount = () => {
+
+    };
+
+    const handleEditAccount = () => {
+        setShowEditModal(!showEditModal)
+    };
 
     console.log("account::", account);
     const handleChevronClick = () => {
@@ -152,7 +167,7 @@ export default function Dashboard(props) {
 
     return (
         <div className={classes.root}>
-            <CssBaseline />
+            <CssBaseline/>
             <Drawer
                 variant="permanent"
                 classes={{
@@ -160,45 +175,49 @@ export default function Dashboard(props) {
                 }}
                 open={open}
             >
-                <h1 className={classes.toolbarIcon}> {username} </h1>
+                <h1 className={classes.toolbarIcon}>
+                    {username}
+                </h1>
+                <Grid container/>
+                <Button onClick={handleUpdateAccount}>Update</Button>
+                {(username == account?.mercuryUsername) && <Button onClick={handleEditAccount}>Edit</Button>} //TODO GET RID OF THIS USERNAME
                 <div className={classes.toolbarIcon}>
                     <IconButton onClick={handleChevronClick}>
-                        {open ? <ChevronLeftIcon /> : <ChevronRight />}
+                        {open ? <ChevronLeftIcon/> : <ChevronRight/>}
                     </IconButton>
                 </div>
-                <Divider />
-                {console.log("acc::", account?.rankedStats?.tier?.toLowerCase())}
+                {account &&
+                <img className={classes.profileIcon} src={"profileicon/" + account?.profileIconId + ".png"}/>}
+                <Divider/>
                 {account && console.log("url::", RankedEmblems + account.rankedStats.tier + ".png")}
-                {account && <img className={classes.rankIcon} src={mapKeyToImage[account?.rankedStats?.tier?.toLowerCase()]} />}
+                {account &&
+                <img className={classes.rankIcon} src={mapKeyToImage[account?.rankedStats?.tier?.toLowerCase()]}/>}
                 <h3>LP: {account?.rankedStats?.lp}</h3>
-                <Divider />
+                <Divider/>
 
             </Drawer>
             <main className={classes.content}>
-                <div className={classes.appBarSpacer} />
+                <div className={classes.appBarSpacer}/>
                 <Container maxWidth="lg" className={classes.container}>
                     <Grid container spacing={3}>
-                        {/* Chart */}
                         <Grid item xs={12} md={8} lg={9}>
                             <Paper className={fixedHeightPaper}>
 
                             </Paper>
                         </Grid>
-                        {/* Recent Deposits */}
                         <Grid item xs={12} md={4} lg={3}>
                             <Paper className={fixedHeightPaper}>
 
                             </Paper>
                         </Grid>
-                        {/* Recent Orders */}
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
-
                             </Paper>
                         </Grid>
                     </Grid>
                 </Container>
             </main>
+            <EditModal show={showEditModal}/>
         </div>
     );
 }

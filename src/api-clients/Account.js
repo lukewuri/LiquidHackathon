@@ -31,6 +31,21 @@ class Account {
         return "https://mercuryvideos.s3.us-east-2.amazonaws.com/" + key;
     }
 
+    static updateAccount(accountObject) {
+        const registerAccountURL = "https://c24g2p1ca6.execute-api.us-east-2.amazonaws.com/default/putUserInfo";
+
+        console.log(accountObject)
+        var oReq = new XMLHttpRequest();
+
+        oReq.onreadystatechange = function() {
+            if (oReq.readyState == XMLHttpRequest.DONE) {
+                alert(oReq.responseText);
+            }
+        }
+
+        oReq.open("POST", registerAccountURL, true);
+        oReq.send(JSON.stringify(accountObject));
+    }
 }
 
 export default Account;

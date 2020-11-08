@@ -39,13 +39,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Profile(props) {
-    let {setTab} = props;
+    let {setTab, loggedInUsername} = props;
     setTab(-1)
     let { username } = useParams();
     console.log("::username", username);
     const classes = useStyles();
     return <ProfileTab
         username={username}
+        loggedInUsername={loggedInUsername}
     >
 
     </ProfileTab>
