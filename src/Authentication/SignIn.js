@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import CloseIcon from '@material-ui/icons/Close';
 
 import AccountAuthentication from "../api-clients/AccountAuthentication";
 
@@ -25,7 +26,9 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main
+        backgroundColor: theme.palette.primary.main,
+        position: "relative",
+        top: "30px"
     },
     form: {
         width: '100%',
@@ -40,6 +43,11 @@ const useStyles = makeStyles((theme) => ({
     },
     register: {
         marginBottom: "20px"
+    },
+    close: {
+        position: "relative",
+        top: "-47.5px",
+        right: "-190px"
     }
 }));
 
@@ -68,6 +76,13 @@ export default function SignIn(props) {
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
+                <Button className={classes.close}
+                        onClick={()=> {
+                            showRegistrationFun(false);
+                            showSignInFun(false);
+                        }}>
+                    <CloseIcon />
+                </Button>
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
