@@ -14,6 +14,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
+import AccountAuthentication from "../api-clients/AccountAuthentication";
+
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -92,6 +94,9 @@ export default function Registration(props) {
         //TODO Add code for registering
     };
     console.log(firstName, lastName);
+
+    AccountAuthentication.registerAccount("asdf");
+
     if (!show) {
         return null;
     }

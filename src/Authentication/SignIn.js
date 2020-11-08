@@ -14,6 +14,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import AccountAuthentication from "../api-clients/AccountAuthentication";
+
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -44,6 +46,18 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn(props) {
     const classes = useStyles();
     const {show, showRegistrationFun, showSignInFun} = props;
+
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
+
+    const handleChangeEmail = (event) => {
+        setEmail(event.target.value);
+    };
+
+    const handleChangePassword = (event) => {
+        setPassword(event.target.value);
+    };
+
     if(!show) {
         return null;
     }
@@ -59,6 +73,7 @@ export default function SignIn(props) {
                 </Typography>
                 <form className={classes.form} noValidate>
                     <TextField
+                        onChange={handleChangeEmail}
                         variant="outlined"
                         margin="normal"
                         required
@@ -70,6 +85,7 @@ export default function SignIn(props) {
                         autoFocus
                     />
                     <TextField
+                        onChange={handleChangePassword}
                         variant="outlined"
                         margin="normal"
                         required
@@ -88,6 +104,7 @@ export default function SignIn(props) {
                         onClick={()=> {
                             showRegistrationFun(false);
                             showSignInFun(false);
+                            AccountAuthentication.loginAccount(email, password);
                         }}
                     >
                         Sign In
@@ -100,6 +117,7 @@ export default function SignIn(props) {
                         onClick={()=> {
                             showRegistrationFun(true);
                             showSignInFun(false);
+                            AccountAuthentication.registerAccount(email, password);
                         }}
                     >
                         Register
