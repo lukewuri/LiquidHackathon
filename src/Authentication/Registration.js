@@ -8,6 +8,12 @@ import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -29,12 +35,63 @@ const useStyles = makeStyles((theme) => ({
     container: {
         backgroundColor: "white",
         boxShadow: "10px gray"
+    },
+    register: {
+        marginTop: "20px",
+        marginBottom: "20px"
+    },
+    formControl: {
+        minWidth: 120,
+        width: "100%",
+        marginTop: "10px",
     }
 }));
 
 export default function Registration(props) {
     const classes = useStyles();
     const {show, showRegistrationFun, showSignInFun} = props;
+
+
+    const [firstName, setFirstName] = React.useState("");
+    const [lastName, setLastName] = React.useState("");
+    const [birthday, setBirthday] = React.useState("");
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
+    const [summonerName, setSummonerName] = React.useState("");
+    const [region, setRegion] = React.useState("NA");
+
+
+
+    const handleChangeFirstName = (event) => {
+        setFirstName(event.target.value);
+    };
+    const handleChangeLastName = (event) => {
+        setLastName(event.target.value);
+    };
+    const handleChangeBirthday = (event) => {
+        setBirthday(event.target.value);
+    };
+
+    const handleChangeEmail = (event) => {
+        setEmail(event.target.value);
+    };
+
+    const handleChangePassword = (event) => {
+        setPassword(event.target.value);
+    };
+
+    const handleChangeSummonerName = (event) => {
+        setSummonerName(event.target.value);
+    };
+    const handleChangeRegion = (event) => {
+        setRegion(event.target.value);
+    };
+
+    const handleRegisterAccount = () => {
+
+        //TODO Add code for registering
+    };
+    console.log(firstName, lastName);
     if (!show) {
         return null;
     }
@@ -50,6 +107,7 @@ export default function Registration(props) {
                     </Typography>
                     <form className={classes.form} noValidate>
                         <TextField
+                            onChange={handleChangeFirstName}
                             variant="outlined"
                             margin="normal"
                             required
@@ -61,6 +119,7 @@ export default function Registration(props) {
                             fullWidth
                         />
                         <TextField
+                            onChange={handleChangeLastName}
                             variant="outlined"
                             margin="normal"
                             required
@@ -72,6 +131,7 @@ export default function Registration(props) {
                             fullWidth
                         />
                         <TextField
+                            onChange={handleChangeBirthday}
                             variant="outlined"
                             margin="normal"
                             required
@@ -85,6 +145,7 @@ export default function Registration(props) {
                             fullWidth
                         />
                         <TextField
+                            onChange={handleChangeEmail}
                             variant="outlined"
                             margin="normal"
                             required
@@ -96,6 +157,7 @@ export default function Registration(props) {
                             fullWidth
                         />
                         <TextField
+                            onChange={handleChangePassword}
                             variant="outlined"
                             margin="normal"
                             required
@@ -107,16 +169,34 @@ export default function Registration(props) {
                             fullWidth
                         />
                         <TextField
+                            onChange={handleChangeSummonerName}
                             variant="outlined"
                             margin="normal"
                             required
                             id="email"
                             label="Summoner Name"
-                            name="email"
-                            autoComplete="email"
+                            name="Summoner Name"
+                            autoComplete="Summoner Name"
                             autoFocus
                             fullWidth
                         />
+                        <FormControl className={classes.formControl}>
+                            <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                                Region
+                            </InputLabel>
+                            <Select
+                                labelId="demo-simple-select-placeholder-label-label"
+                                id="demo-simple-select-placeholder-label"
+                                value={region}
+                                onChange={handleChangeRegion}
+                                displayEmpty
+                                className={classes.selectEmpty}
+                            >
+                                <MenuItem value={"NA"}>NA</MenuItem>
+                                <MenuItem value={"EUW"}>EUW</MenuItem>
+                                <MenuItem value={"KR"}>KR</MenuItem>
+                            </Select>
+                        </FormControl>
                         <Button
                             fullWidth
                             variant="contained"
@@ -125,6 +205,7 @@ export default function Registration(props) {
                                 showRegistrationFun(false);
                                 showSignInFun(false);
                             }}
+                            className={classes.register}
                         >
                             Register
                         </Button>
