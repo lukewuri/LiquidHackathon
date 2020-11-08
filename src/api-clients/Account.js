@@ -24,7 +24,8 @@ class Account {
         const id = "0"
         return "https://km4nfzu6ej.execute-api.us-east-2.amazonaws.com/Prod/highlights/" + id;
     }
-    getHighlightMP4Link(key) {
+    static getHighlightMP4Link(key) {
+        console.log("Link made::", "https://mercuryvideos.s3.us-east-2.amazonaws.com/" + key);
         return "https://mercuryvideos.s3.us-east-2.amazonaws.com/" + key;
     }
     uploadMP4File(key) {

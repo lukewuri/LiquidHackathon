@@ -18,7 +18,7 @@ import Gold from "../assets/ranked-emblems/gold.png"
 import Platinum from "../assets/ranked-emblems/platinum.png"
 import Diamond from "../assets/ranked-emblems/diamond.png"
 import Master from "../assets/ranked-emblems/master.png"
-import Grandmaster from "../assets/ranked-emblems/grandmaster.png"
+import Grandmaster from "../assets/ranked-emblems/grandmasters.png"
 import Challenger from "../assets/ranked-emblems/challenger.png"
 
 import Account from "../api-clients/Account";
@@ -35,11 +35,17 @@ const mapKeyToImage = {
     "gold": Gold,
     "platinum": Platinum,
     "diamond": Diamond,
-    "master": Master,
-    "grandmaster": Grandmaster,
+    "masters": Master,
+    "grandmasters": Grandmaster,
     "challenger": Challenger
 }
 
+const tierToNumerals = {
+    "1": "I",
+    "2": "II",
+    "3": "III",
+    "4": "IV"
+}
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -101,7 +107,6 @@ const useStyles = makeStyles((theme) => ({
             width: theme.spacing(9),
         },
     },
-    appBarSpacer: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
         height: '100vh',
@@ -135,21 +140,44 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 'auto',
         marginRight: 'auto',
         marginBottom: '40px'
+    },
+    name: {
+        textAlign: "right"
+    },
+    centerh3: {
+        marginLeft: 'auto',
+        marginRight: 'auto'
+    },
+    socialIcon: {
+        width: "50px",
+        height: "50px"
     }
 }));
 
-export default function Dashboard(props) {
+export default function ProfileTab(props) {
     const classes = useStyles();
     let {username, loggedInUsername} = props;
     const [open, setOpen] = React.useState(true);
     const [account, setAccount] = React.useState(null);
     const [showEditModal, setShowEditModal] = React.useState(false);
+    const [mp4Links, setmp4Links] = React.useState(null);
 
     console.log()
     useEffect(() => {
         Account.getAccount(username, setAccount);
 
     }, [username]);
+
+    useEffect(() => {
+        let mp4LinkBuilder = []
+        account?.videos.forEach((video) => {
+            console.log("ree::", Account.getHighlightMP4Link(video?.videoId));
+            mp4LinkBuilder.push(Account.getHighlightMP4Link(video?.videoId));
+        });
+        console.log("reeeee::", mp4LinkBuilder);
+        setmp4Links(mp4LinkBuilder);
+        console.log("::", mp4Links);
+    }, [account]);
 
     const handleUpdateAccount = () => {
 
@@ -159,7 +187,6 @@ export default function Dashboard(props) {
         setShowEditModal(!showEditModal)
     };
 
-    console.log("account::", account);
     const handleChevronClick = () => {
         setOpen(!open);
     };
@@ -178,9 +205,12 @@ export default function Dashboard(props) {
                 <h1 className={classes.toolbarIcon}>
                     {username}
                 </h1>
+                <h3 className={classes.name}>
+                    {account?.firstName} {account?.lastName}
+                </h3>
                 <Grid container/>
                 <Button onClick={handleUpdateAccount}>Update</Button>
-                {(username == account?.mercuryUsername) && <Button onClick={handleEditAccount}>Edit</Button>} //TODO GET RID OF THIS USERNAME
+                {(loggedInUsername == account?.mercuryUsername) && <Button onClick={handleEditAccount}>Edit</Button>}
                 <div className={classes.toolbarIcon}>
                     <IconButton onClick={handleChevronClick}>
                         {open ? <ChevronLeftIcon/> : <ChevronRight/>}
@@ -189,35 +219,91 @@ export default function Dashboard(props) {
                 {account &&
                 <img className={classes.profileIcon} src={"profileicon/" + account?.profileIconId + ".png"}/>}
                 <Divider/>
-                {account && console.log("url::", RankedEmblems + account.rankedStats.tier + ".png")}
+                {console.log("::rnk", account?.rankedStats?.tier?.toLowerCase())}
                 {account &&
                 <img className={classes.rankIcon} src={mapKeyToImage[account?.rankedStats?.tier?.toLowerCase()]}/>}
-                <h3>LP: {account?.rankedStats?.lp}</h3>
-                <Divider/>
+                <h3 className={classes.centerh3}>{account?.rankedStats?.tier.toUpperCase()} {tierToNumerals[account?.rankedStats?.rank]} {account?.rankedStats?.lp} LP</h3>
 
+                <Divider/>
+                <img className={classes.socialIcon} src={"linkedin.png"}/>
+                <img className={classes.socialIcon} src={"twitch.png"}/>
+                <img className={classes.socialIcon} src={"twitter.png"}/>
             </Drawer>
             <main className={classes.content}>
-                <div className={classes.appBarSpacer}/>
                 <Container maxWidth="lg" className={classes.container}>
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={8} lg={9}>
                             <Paper className={fixedHeightPaper}>
-
+                                <h2> Attributes </h2>
+                                {account?.attributes.map(attribute => {
+                                    return <div>
+                                        {attribute.type} - {attribute?.endorsers.length}
+                                    </div>
+                                })}
+                                <h2> Ranked Stats </h2>
+                                <h2> Interested in Offers </h2>
+                                <div> {account?.openToOffers ? <b>Yes</b> : <b>No</b>}</div>
                             </Paper>
                         </Grid>
                         <Grid item xs={12} md={4} lg={3}>
                             <Paper className={fixedHeightPaper}>
+                                <h2> Education </h2>
+                                <div>
+                                    {account?.educationInstitution}
+                                </div>
 
+                                <h2> Team </h2>
+                                <div>
+                                    {account?.teamOrganization || "N/A"}
+                                </div>
+
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={12} md={8} lg={9}>
+                            <Paper className={fixedHeightPaper}>
+                                <h2> Position </h2>
+                                <div>
+
+                                    <img src={"ranked-positions/" + account?.position.toLowerCase() + ".png"}/>
+                                </div>
+
+                                <h2> Accolades </h2>
+                                <div>
+                                    {account?.accolades.map(accolade => {
+                                        return <div>
+                                            {accolade?.accoladeTitle}
+                                        </div>
+                                    })}
+                                </div>
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={12} md={4} lg={3}>
+                            <Paper className={fixedHeightPaper}>
+                                <h2> Account Type </h2>
+                                <div>
+                                    {account?.accountType}
+                                </div>
+
+                                <h2> Competitive Level </h2>
+                                <div>
+                                    {account?.playerType}
+                                </div>
                             </Paper>
                         </Grid>
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
+                                <div>
+                                    <h2> Highlights </h2>
+                                    <video width="320" height="240" controls>
+                                        <source src={mp4Links} type="video/mp4"/>
+                                    </video>
+                                </div>
                             </Paper>
                         </Grid>
                     </Grid>
                 </Container>
             </main>
-            <EditModal show={showEditModal}/>
+            <EditModal show={showEditModal} showEditModalToggle={setShowEditModal}/>
         </div>
-    );
+);
 }

@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditModal(props) {
     const classes = useStyles();
-    const {show, account} = props;
+    const {show, account, showEditModalToggle} = props;
 
 
     const [accolades, setAccolades] = React.useState(account?.accolades);
@@ -67,6 +67,9 @@ export default function EditModal(props) {
     };
     const handleChangeAccountType = (event) => {
         setAccountType(event.target.value);
+    };
+    const handleChangeAttributes = (event) => {
+        setAttributes(event.target.value);
     };
     const handleChangeOpenToOffers = (event) => {
         setOpenToOffers(event.target.value);
@@ -145,7 +148,34 @@ export default function EditModal(props) {
                         />
                         <FormControl className={classes.formControl}>
                             <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-                                Region
+                                Account Type
+                            </InputLabel>
+                            <Select
+                                labelId="demo-simple-select-placeholder-label-label"
+                                id="demo-simple-select-placeholder-label"
+                                value={accountType}
+                                onChange={handleChangeAccountType}
+                                displayEmpty
+                            >
+                                <MenuItem value={"Player"}>Player</MenuItem>
+                                <MenuItem value={"Coach"}>Coach</MenuItem>
+                                <MenuItem value={"Recruiter"}>Recruiter</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <TextField
+                            onChange={handleChangeAttributes} //Textfield
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            id="attributes"
+                            label="Attributes"
+                            name="attributes"
+                            autoFocus
+                            fullWidth
+                        />
+                        <FormControl className={classes.formControl}>
+                            <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                                Account Type
                             </InputLabel>
                             <Select
                                 labelId="demo-simple-select-placeholder-label-label"
@@ -161,34 +191,39 @@ export default function EditModal(props) {
                         </FormControl>
                         <FormControl className={classes.formControl}>
                             <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-                                Region
+                                Player Type
                             </InputLabel>
                             <Select
                                 labelId="demo-simple-select-placeholder-label-label"
                                 id="demo-simple-select-placeholder-label"
                                 value={accountType}
-                                onChange={handleChangeAccountType}
+                                onChange={handleChangePlayerType}
                                 displayEmpty
                             >
-                                <MenuItem value={"Player"}>Player</MenuItem>
-                                <MenuItem value={"Coach"}>Coach</MenuItem>
-                                <MenuItem value={"Recruiter"}>Recruiter</MenuItem>
+                                <MenuItem value={"Pro"}>Pro</MenuItem>
+                                <MenuItem value={"Coach"}>Amateur</MenuItem>
+                                <MenuItem value={"Collegiate"}>Collegiate</MenuItem>
+                                <MenuItem value={"Teamless"}>Teamless</MenuItem>
                             </Select>
                         </FormControl>
-                        <TextField
-                            onChange={handleChangePlayerType} //Dropdown
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            id="Birthday"
-                            name="Birthday"
-                            label="Birthday"
-                            InputLabelProps={{shrink: true, required: true}}
-                            autoComplete="Birthday"
-                            autoFocus
-                            type="date"
-                            fullWidth
-                        />
+                        <FormControl className={classes.formControl}>
+                            <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                                Region
+                            </InputLabel>
+                            <Select
+                                labelId="demo-simple-select-placeholder-label-label"
+                                id="demo-simple-select-placeholder-label"
+                                value={position}
+                                onChange={handleChangePosition}
+                                displayEmpty
+                            >
+                                <MenuItem value={"Top"}>Top</MenuItem>
+                                <MenuItem value={"Jungle"}>Jungle</MenuItem>
+                                <MenuItem value={"Mid"}>Mid</MenuItem>
+                                <MenuItem value={"ADC"}>ADC</MenuItem>
+                                <MenuItem value={"Support"}>Support</MenuItem>
+                            </Select>
+                        </FormControl>
                         <TextField
                             onChange={handleChangePosition} //Dropdown
                             variant="outlined"
@@ -222,17 +257,6 @@ export default function EditModal(props) {
                             autoFocus
                             fullWidth
                         />
-                        <TextField
-                            onChange={handleChangeEducation}
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            id="education"
-                            label="Education"
-                            name="Education"
-                            autoFocus
-                            fullWidth
-                        />
                         <FormControl className={classes.formControl}>
                             <InputLabel shrink id="demo-simple-select-placeholder-label-label">
                                 Level
@@ -252,19 +276,32 @@ export default function EditModal(props) {
                                 <MenuItem value={"Teamless"}>Teamless</MenuItem>
                             </Select>
                         </FormControl>
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            onClick={() => {
-                                // showRegistrationFun(false);
-                                // showSignInFun(false);
-                                handleUpdateAccount();
-                            }}
-                            className={classes.register}
-                        >
-                            Register
-                        </Button>
+                        <div style={{display: "flex",
+                            justifyContent: "space-between",}}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() => {
+                                    showEditModalToggle()
+                                }}
+                                className={classes.register}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+
+                                variant="contained"
+                                color="primary"
+                                onClick={() => {
+                                    // showRegistrationFun(false);
+                                    // showSignInFun(false);
+                                    handleUpdateAccount();
+                                }}
+                                className={classes.register}
+                            >
+                                Update
+                            </Button>
+                        </div>
                     </form>
                 </div>
             </Container>
